@@ -1,5 +1,5 @@
 # ESS_L2b_Scripts
-The different versions of the libraries used for these processes are detailed in Config. Python 3.9.6 was used to run these scripts. 
+The different versions of the libraries used for these processes are detailed in Config.pdf file. Python 3.9.6 was used to run these scripts. 
 
 All processing is performed on L2b data (L2 SAETTA + météorage Data, netcdf files) available on this link, link to DOI. Data must be deposited, by day, in a same folder called L2b_SAETTA. In this folder, the 2 GRID files (GRID_XY2D_CORSICA_1km.npz and GRID_LATLON2D_CORSICA_1km.npz) must be present (they are by default in the reposetory L2b_SAETTA available here). The default path organization should be:
 
