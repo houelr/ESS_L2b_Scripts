@@ -1,18 +1,25 @@
-# ESS_L2b_Scripts
-The different versions of the libraries used for these processes are detailed in Config.pdf file. Python 3.9.6 was used to run these scripts. 
+# ESS L2b scripts 
 
-All processing is performed on L2b data (L2 SAETTA + météorage Data, netcdf files) available on this link, link to DOI. Data must be deposited, by day, in a same folder called L2b_SAETTA. In this folder, the 2 GRID files (GRID_XY2D_CORSICA_1km.npz and GRID_LATLON2D_CORSICA_1km.npz) must be present (they are by default in the reposetory L2b_SAETTA available here). The default path organization should be:
+### Overview
 
-L2b_SAETTA/18MMDD/L2b.nc files
+This repository contains scripts for the analysis of LMA SAETTA lightning data and Météorage data using the different python scrits. The different versions of the libraries used for these processes are detailed in the Config.pdf file. The scripts are written in Python 3.9.6.
 
+### Data Source
+
+All processing is performed on L2b data (L2 SAETTA + météorage Data, netcdf files) available at the following link: [link to DOI]. The data must be deposited, by day, in a folder named `L2b_SAETTA`. Within this folder, two GRID files, namely `GRID_XY2D_CORSICA_1km.npz` and `GRID_LATLON2D_CORSICA_1km.npz`, must be present. These files are by default in the repository `L2b_SAETTA` available [here](repository_link). The default path organization should be as follows:
+
+```
+L2b_SAETTA/18MMDD/L2b.nc
 L2b_SAETTA/GRID_LATLON_CORSICA_1km.npz
-
 L2b_SAETTA/GRID_XY2D_CORSICA_1km.npz
+```
 
-5 different scripts allow the user to obtain the samples database presented in the article, as well as plotting all the figures for samples and the cell presented as an example. Only 3 scripts need to be run in sequence. 
+### Scripts
 
-The RUN.py script launches the ECTA algorithm (ECTA_RUN.py script) and the L2b data extraction (Cell_Data_Extractor_RUN.py script) for each cell over the entire study period. Processing takes place day by day. The user just needs to change the path of the Work Directory (Wdir) at the very beginning of the script so that it points to his directory with all the study days (L2b_SAETTA folder).  ECTA will create a list of cells (in the form of polygons) as well as a graph summarizing, for each day, all the trajectories of the cells obtained. The Cell_Data_Extractor_RUN.py script extracts for each cells, breaks down the cells into samples, classifies the lightning and uses the Chargepol algorithm (Medina et al. 2021) to determine the charge structure. All the variables for each cell are then saved in a Cell_Domain_CellID.npz file, itself in a directory created for each cell. This step can take several hours depending on the user’s PC configuration.  
+There are five different scripts provided to obtain the samples database presented in the article and to generate various plots. Only three scripts need to be run in sequence.
 
-Next, the Cell_Data_Plot.py script need to be executed after changing the path of the Wdir at the start of the script. This path must lead to the L2b_SAETTA directory. This script produces different graphs for each cell. Here, it is defaulted to cell #2 of the 180726 situation presented in the paper. 
+1. **RUN.py:** This script launches the ECTA algorithm (`ECTA_RUN.py` script) and the L2b data extraction (`Cell_Data_Extractor_RUN.py` script) for each cell over the entire study period. Processing takes place day by day. The user needs to change the path of the Work Directory (Wdir) at the beginning of the script to point to their directory with all the study days (`L2b_SAETTA` folder). ECTA will create a list of cells (in the form of polygons) as well as a graph summarizing, for each day, all the trajectories of the cells obtained. The `Cell_Data_Extractor_RUN.py` script extracts, breaks down the cells into samples, classifies the lightning, and uses the Chargepol algorithm (Medina et al. 2021) to determine the charge structure. All the variables for each cell are then saved in a `Cell_Domain_CellID.npz` file, itself in a directory created for each cell. This step can take several hours depending on the user’s PC configuration.
 
-Finally, the Samples_Stats_Plots.py script must be run after changing the Wdir path at the start of the script.  This path must lead to the L2b_SAETTA directory. This script is used to load all the samples from the study period to produce the statistics and graphs presented in the paper.
+2. **Cell_Data_Plot.py:** After changing the path of the Wdir at the start of the script, this script produces different graphs for each cell. The default is set to cell #2 of the 180726 situation presented in the paper.
+
+3. **Samples_Stats_Plots.py:** This script must be run after changing the Wdir path at the start of the script. The path should lead to the `L2b_SAETTA` directory. This script is used to load all the samples from the study period to produce the statistics and graphs presented in the paper.
