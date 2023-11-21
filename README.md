@@ -6,7 +6,7 @@ This repository contains scripts for the analysis of LMA SAETTA lightning data a
 
 ### Data Source
 
-All processing is performed on L2b data (L2 SAETTA + météorage Data, netcdf files) available at the following link: [link to DOI]. The data must be deposited, by day, in a folder named `L2b_SAETTA`. Within this folder, two GRID files, namely `GRID_XY2D_CORSICA_1km.npz` and `GRID_LATLON2D_CORSICA_1km.npz`, must be present. These files are by default in the repository `L2b_SAETTA` available [here](repository_link). The default path organization should be as follows:
+All processing is performed on L2b data (L2 SAETTA + météorage Data, netcdf files) available at the following link: https://doi.org/10.25326/542#v02. The data must be deposited, by day, in a folder named `L2b_SAETTA` along with the two GRID files, namely `GRID_XY2D_CORSICA_1km.npz` and `GRID_LATLON2D_CORSICA_1km.npz` of this git repository. The default path organization should be as follows:
 
 ```
 L2b_SAETTA/18MMDD/L2b.nc
