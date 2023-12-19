@@ -5,7 +5,7 @@
 This repository contains scripts for the analysis of LMA SAETTA lightning data and Météorage data using the different python scripts. The different versions of the libraries used for these processes are detailed in the **Config.pdf** file. The scripts are written in Python 3.9.6.
 
 Reference:
-Houel, R., Defer, E., Lambert, D.,Prieur, S., & Pédeboy, S. (2023). Electrical properties of vertical dominantcharge structures observed in Corsicanthunderstorms with a LMA. Earth andSpace Science, 10, e2023EA003354.
+Houel, R., Defer, E., Lambert, D.,Prieur, S., & Pédeboy, S. (2023). Electrical properties of vertical dominantcharge structures observed in Corsican thunderstorms with a LMA. Earth and Space Science, 10, e2023EA003354.
 https://doi.org/10.1029/2023EA003354
 
 ### Data Source
