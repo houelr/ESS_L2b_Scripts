@@ -103,7 +103,7 @@ def Cell_Data_Extractor(DAY,domain,LMA,Wdir):
     m = Basemap(projection='merc',resolution='h',fix_aspect=True,llcrnrlat=lat_min_REGION,urcrnrlat=lat_max_REGION,llcrnrlon=lon_min_REGION,urcrnrlon=lon_max_REGION)
    
     date_DAY=datetime(2000+int(DAY[0:2]),int(DAY[2:4]),int(DAY[4:6]))
-    Year=str(date_DAY.year-2000)
+    Year=str(date_DAY.year)
     Month=str("%02d" % date_DAY.month)
     Day=str("%02d" % date_DAY.day)
     c1=0
@@ -149,23 +149,23 @@ def Cell_Data_Extractor(DAY,domain,LMA,Wdir):
         if LMA=='SAETTA':
             for i in np.arange(t_min, t_max+1):
                 if i<10:
-                    #Paths.append(sorted(glob.glob(str(Path(Wdir,DAY,'L2b_V02.MTRG_20'+Year+'-'+Month+'-'+Day+'_formated2.merged_with_SAETTA.L2.LYLOUT_'+DAY+'_0'+str(i)+'*')))))
+                    #Paths.append(sorted(glob.glob(str(Path(Wdir,DAY,'L2b_V02.MTRG_'+Year+'-'+Month+'-'+Day+'_formated2.merged_with_SAETTA.L2.LYLOUT_'+DAY+'_0'+str(i)+'*')))))
                     Paths.append(sorted(glob.glob(str(Path(Wdir,DAY,'L2b.V02.EXAEDRE.SAETTA.MTRG.'+Year+Month+Day+'_0'+str(i)+'*')))))
                 if i>=10:
-                    #Paths.append(sorted(glob.glob(str(Path(Wdir,DAY,'L2b_V02.MTRG_20'+Year+'-'+Month+'-'+Day+'_formated2.merged_with_SAETTA.L2.LYLOUT_'+DAY+'_'+str(i)+'*')))))
+                    #Paths.append(sorted(glob.glob(str(Path(Wdir,DAY,'L2b_V02.MTRG_'+Year+'-'+Month+'-'+Day+'_formated2.merged_with_SAETTA.L2.LYLOUT_'+DAY+'_'+str(i)+'*')))))
                     Paths.append(sorted(glob.glob(str(Path(Wdir,DAY,'L2b.V02.EXAEDRE.SAETTA.MTRG.'+Year+Month+Day+'_'+str(i)+'*')))))
             if t_min>=24 or t_max>=24 :
                 A=t_max-24
                 print('Evening late activity, loading next day files')
                 date_next_DAY=date_DAY+ timedelta(days=1)
-                N_Date_full_formated=str(date_next_DAY.year-2000)+str("%02d" % date_next_DAY.month)+str("%02d" % date_next_DAY.day)
+                N_Date_full_formated=str(date_next_DAY.year)+str("%02d" % date_next_DAY.month)+str("%02d" % date_next_DAY.day)
                 if os.path.exists(Wdir+'/'+N_Date_full_formated):
                    #N for next 
-                   N_Year=str(date_next_DAY.year-2000)
+                   N_Year=str(date_next_DAY.year)
                    N_Month=str("%02d" % date_next_DAY.month)
                    N_Day=str("%02d" % date_next_DAY.day)
                    for i in np.arange(0,A+1):  
-                       #Paths.append(sorted(glob.glob(str(Path(Wdir,N_Date_full_formated,'L2b_V02.MTRG_20'+N_Year+'-'+N_Month+'-'+N_Day+'_formated2.merged_with_SAETTA.L2.LYLOUT_'+N_Date_full_formated+'_0'+str(i)+'*')))))
+                       #Paths.append(sorted(glob.glob(str(Path(Wdir,N_Date_full_formated,'L2b_V02.MTRG_'+N_Year+'-'+N_Month+'-'+N_Day+'_formated2.merged_with_SAETTA.L2.LYLOUT_'+N_Date_full_formated+'_0'+str(i)+'*')))))
                        Paths.append(sorted(glob.glob(str(Path(Wdir,N_Date_full_formated,'L2b.V02.EXAEDRE.SAETTA.MTRG.'+N_Year+N_Month+N_Day+'_0'+str(i)+'*')))))
                 else:
                     print('NO FILES FOR THE NEXT DAY') 
