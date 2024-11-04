@@ -147,7 +147,6 @@ domain='JULY18'
 ONE_CELL=2 ## for all cells --> -1, here will do graphics for cell #2
 
 if LMA=='SAETTA':
-    #Wdir=Path('E:\Ronan_work\hour\WORK\L2b\L2b_SAETTA')
     GRID_LATLON2D_CORSICA_1km=np.load(Path(Wdir/'GRID_LATLON2D_CORSICA_1km.npz'))
     LON2D=GRID_LATLON2D_CORSICA_1km['LON2D']  #to get that, i did meshgrid with XD and YD --> 2D array in meter and then m(X2D,Y2D)
     LAT2D=GRID_LATLON2D_CORSICA_1km['LAT2D']
@@ -156,6 +155,15 @@ if LMA=='SAETTA':
     lon_min_REGION=6.5
     lon_max_REGION=10.6
 
+if LMA=='HYLMA':
+    GRID_LATLON2D_SOUTHFRANCE_1km=np.load(Path(Wdir/'GRID_LATLON2D_SOUTHFRANCE_1km.npz'))  #GRID over the HYLMA domain (1km*2) 
+    LON2D=GRID_LATLON2D_SOUTHFRANCE_1km['LON2D']  #to get that, i did meshgrid with XD and YD --> 2D array in meter and then m(X2D,Y2D)
+    LAT2D=GRID_LATLON2D_SOUTHFRANCE_1km['LAT2D'] 
+    lat_min_REGION=42.6 
+    lat_max_REGION=45.3
+    lon_min_REGION=2.5       
+    lon_max_REGION=6  
+  
 # #if we want to focus on only one cell 
 if ONE_CELL!=-1:
     print('Focus on one cell:')
