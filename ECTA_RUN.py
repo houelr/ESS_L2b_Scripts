@@ -143,6 +143,18 @@ def ECTA(DAY,domain,T_start,T_end,LMA,Wdir):    # multiple return when no data
         lat_max=43.5
         lon_min=6.5         
         lon_max=10.6
+
+    if LMA=='HYLMA':
+        FilesName='L2b.V02.Hy_SOP1.Hy_LMA.MTRG.'
+        GRID_LATLON2D_SOUTHFRANCE_1km=np.load(Path(Wdir/'GRID_LATLON2D_SOUTHFRANCE_1km.npz'))  #GRID over the HYLMA domain (1km*2) 
+        LON2D=GRID_LATLON2D_SOUTHFRANCE_1km['LON2D']  #to get that, i did meshgrid with XD and YD --> 2D array in meter and then m(X2D,Y2D)
+        LAT2D=GRID_LATLON2D_SOUTHFRANCE_1km['LAT2D']
+        #COORDINATES associated with the 2D grid 
+        lat_min=42.6 
+        lat_max=45.3
+        lon_min=2.5       
+        lon_max=6    
+
     
     print('START ECTA3D: CELL IDENTIFICATION AND TRACKING')
     print(DAY)
@@ -186,7 +198,7 @@ def ECTA(DAY,domain,T_start,T_end,LMA,Wdir):    # multiple return when no data
         if i<10:
             Paths.append(sorted(glob.glob(str(Path(Wdir,DAY,FilesName+Year+Month+Day+'_0'+str(i)+'*')))))
         if i>=10:
-            Paths.append(sorted(glob.glob(str(Path(Wdir,DAY,FilesName'+Year+Month+Day+'_'+str(i)+'*')))))
+            Paths.append(sorted(glob.glob(str(Path(Wdir,DAY,FilesName+Year+Month+Day+'_'+str(i)+'*')))))
     
     Paths_day = [item for sublist in Paths for item in sublist]
     #test if there is activity around 00UTC              
