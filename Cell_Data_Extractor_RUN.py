@@ -67,6 +67,7 @@ H_max=15
 
 def Cell_Data_Extractor(DAY,domain,LMA,Wdir):
     if LMA=='SAETTA':  #GRID for FED and rain around Corsica
+        FilesName='L2b.V02.EXAEDRE.SAETTA.MTRG.' 
         #GRID LOADING 
         GRID_LATLON2D_CORSICA_1km=np.load(Path(Wdir,'GRID_LATLON2D_CORSICA_1km.npz')) #my 1 km*2 grid over Corsica in LAT/LON
         LON2D=GRID_LATLON2D_CORSICA_1km['LON2D']  #to get that, i did meshgrid with XD and YD --> 2D array in meter and then m(X2D,Y2D)
@@ -81,6 +82,23 @@ def Cell_Data_Extractor(DAY,domain,LMA,Wdir):
         lat_max_REGION=43.5
         lon_min_REGION=6.5
         lon_max_REGION=10.6
+          
+    if LMA=='HYLMA':  #GRID for FED and rain around Corsica
+        FilesName='L2b.V02.Hy_SOP1.Hy_LMA.MTRG.'
+        #GRID LOADING 
+        GRID_LATLON2D_SOUTHFRANCE_1km=np.load(Path(Wdir,'GRID_LATLON2D_SOUTHFRANCE_1km.npz')) #my 1 km*2 grid over HYLMA in LAT/LON
+        LON2D=GRID_LATLON2D_SOUTHFRANCE_1km['LON2D']  #to get that, i did meshgrid with XD and YD --> 2D array in meter and then m(X2D,Y2D)
+        LAT2D=GRID_LATLON2D_SOUTHFRANCE_1km['LAT2D']
+        GRID_XY2D_SOUTHFRANCE_1km=np.load(Path(Wdir,'GRID_XY2D_SOUTHFRANCE_1km.npz'))  #my 1 km*2 grid over HYLMA in teh basemap projection (meter)
+        XD=GRID_XY2D_SOUTHFRANCE_1km['XD']
+        YD=GRID_XY2D_SOUTHFRANCE_1km['YD']
+        XDT=GRID_XY2D_SOUTHFRANCE_1km['XDT']
+        YDT=GRID_XY2D_SOUTHFRANCE_1km['YDT']
+        
+        lat_min_REGION=42.6 
+        lat_max_REGION=45.3
+        lon_min_REGION=2.5       
+        lon_max_REGION=6
 
     print('START CELL EXTRACTOR: FLASHES STATS, CHARGE LAYER RETRIEVAL (CHARGEPOL), FOR EACH CELL')
     print(DAY)
@@ -145,31 +163,26 @@ def Cell_Data_Extractor(DAY,domain,LMA,Wdir):
         lat_cell_domain_max=np.max(Cells[Cells[:,1]==Cell_id][:,3])+1
             
                 
-       #L2b DATA
-        if LMA=='SAETTA':
-            for i in np.arange(t_min, t_max+1):
-                if i<10:
-                    #Paths.append(sorted(glob.glob(str(Path(Wdir,DAY,'L2b_V02.MTRG_'+Year+'-'+Month+'-'+Day+'_formated2.merged_with_SAETTA.L2.LYLOUT_'+DAY+'_0'+str(i)+'*')))))
-                    Paths.append(sorted(glob.glob(str(Path(Wdir,DAY,'L2b.V02.EXAEDRE.SAETTA.MTRG.'+Year+Month+Day+'_0'+str(i)+'*')))))
-                if i>=10:
-                    #Paths.append(sorted(glob.glob(str(Path(Wdir,DAY,'L2b_V02.MTRG_'+Year+'-'+Month+'-'+Day+'_formated2.merged_with_SAETTA.L2.LYLOUT_'+DAY+'_'+str(i)+'*')))))
-                    Paths.append(sorted(glob.glob(str(Path(Wdir,DAY,'L2b.V02.EXAEDRE.SAETTA.MTRG.'+Year+Month+Day+'_'+str(i)+'*')))))
-            if t_min>=24 or t_max>=24 :
-                A=t_max-24
-                print('Evening late activity, loading next day files')
-                date_next_DAY=date_DAY+ timedelta(days=1)
-                N_Date_full_formated=str(date_next_DAY.year)+str("%02d" % date_next_DAY.month)+str("%02d" % date_next_DAY.day)
-                if os.path.exists(Wdir+'/'+N_Date_full_formated):
-                   #N for next 
-                   N_Year=str(date_next_DAY.year)
-                   N_Month=str("%02d" % date_next_DAY.month)
-                   N_Day=str("%02d" % date_next_DAY.day)
-                   for i in np.arange(0,A+1):  
-                       #Paths.append(sorted(glob.glob(str(Path(Wdir,N_Date_full_formated,'L2b_V02.MTRG_'+N_Year+'-'+N_Month+'-'+N_Day+'_formated2.merged_with_SAETTA.L2.LYLOUT_'+N_Date_full_formated+'_0'+str(i)+'*')))))
-                       Paths.append(sorted(glob.glob(str(Path(Wdir,N_Date_full_formated,'L2b.V02.EXAEDRE.SAETTA.MTRG.'+N_Year+N_Month+N_Day+'_0'+str(i)+'*')))))
-                else:
-                    print('NO FILES FOR THE NEXT DAY') 
-                           
+        #L2b DATA
+        for i in np.arange(t_min, t_max+1):
+          if i<10:
+              Paths.append(sorted(glob.glob(str(Path(Wdir,DAY,FilesName+Year+Month+Day+'_0'+str(i)+'*')))))
+          if i>=10:
+              Paths.append(sorted(glob.glob(str(Path(Wdir,DAY,FilesName+Year+Month+Day+'_'+str(i)+'*')))))
+        if t_min>=24 or t_max>=24 :
+          A=t_max-24
+          print('Evening late activity, loading next day files')
+          date_next_DAY=date_DAY+ timedelta(days=1)
+          N_Date_full_formated=str(date_next_DAY.year)+str("%02d" % date_next_DAY.month)+str("%02d" % date_next_DAY.day)
+          if os.path.exists(Wdir+'/'+N_Date_full_formated):
+             #N for next 
+             N_Year=str(date_next_DAY.year)
+             N_Month=str("%02d" % date_next_DAY.month)
+             N_Day=str("%02d" % date_next_DAY.day)
+             for i in np.arange(0,A+1):  
+                 Paths.append(sorted(glob.glob(str(Path(Wdir,N_Date_full_formated,FilesName+N_Year+N_Month+N_Day+'_0'+str(i)+'*')))))
+          else:
+              print('NO FILES FOR THE NEXT DAY') 
                 
         PATHS = [item for sublist in Paths for item in sublist]
         print('L2B Data')
