@@ -134,6 +134,7 @@ TEST=1
 def ECTA(DAY,domain,T_start,T_end,LMA,Wdir):    # multiple return when no data     
     # DOMAIN AND TRACKING PERIOD 
     if LMA=='SAETTA':
+        FilesName='L2b.V02.EXAEDRE.SAETTA.MTRG.'
         GRID_LATLON2D_CORSICA_1km=np.load(Path(Wdir/'GRID_LATLON2D_CORSICA_1km.npz'))  #GRID over the Corsican domain (1km*2) 
         LON2D=GRID_LATLON2D_CORSICA_1km['LON2D']  #to get that, i did meshgrid with XD and YD --> 2D array in meter and then m(X2D,Y2D)
         LAT2D=GRID_LATLON2D_CORSICA_1km['LAT2D']
@@ -181,32 +182,28 @@ def ECTA(DAY,domain,T_start,T_end,LMA,Wdir):    # multiple return when no data
     c=0
     A_nb_flash=0
     
-    if LMA=='SAETTA':
-        for i in np.arange(t_min, t_max+1):
-            if i<10:
-                #Paths.append(sorted(glob.glob(str(Path(Wdir,DAY,'L2b_V02.MTRG_'+Year+'-'+Month+'-'+Day+'_formated2.merged_with_SAETTA.L2.LYLOUT_'+DAY+'_0'+str(i)+'*')))))
-                Paths.append(sorted(glob.glob(str(Path(Wdir,DAY,'L2b.V02.EXAEDRE.SAETTA.MTRG.'+Year+Month+Day+'_0'+str(i)+'*')))))
-            if i>=10:
-                #Paths.append(sorted(glob.glob(str(Path(Wdir,DAY,'L2b_V02.MTRG_'+Year+'-'+Month+'-'+Day+'_formated2.merged_with_SAETTA.L2.LYLOUT_'+DAY+'_'+str(i)+'*')))))
-                Paths.append(sorted(glob.glob(str(Path(Wdir,DAY,'L2b.V02.EXAEDRE.SAETTA.MTRG.'+Year+Month+Day+'_'+str(i)+'*')))))
-        Paths_day = [item for sublist in Paths for item in sublist]
-        #test if there is activity around 00UTC,              
-        if Paths_day[-1].startswith(str(Path(Wdir,DAY,'L2b.V02.EXAEDRE.SAETTA.MTRG.'+Year+Month+Day+'_2350'))):
-        #if Paths_day[-1].startswith(str(Path(Wdir,DAY,'L2b_V02.MTRG_'+Year+'-'+Month+'-'+Day+'_formated2.merged_with_SAETTA.L2.LYLOUT_'+DAY+'_2350'))):
-                print('Evening late  activity, loading next day files')
-                date_next_DAY=date_DAY+ timedelta(days=1)
-                N_Date_full_formated=str(date_next_DAY.year)+str("%02d" % date_next_DAY.month)+str("%02d" % date_next_DAY.day)
-                if os.path.exists(Path(Wdir/N_Date_full_formated)):
-                    #N for next day 
-                    Continuous_activity=1 #if activity continues on 2 days, follow tracking the next day until 3 am 
-                    N_Year=str(date_next_DAY.year)
-                    N_Month=str("%02d" % date_next_DAY.month)
-                    N_Day=str("%02d" % date_next_DAY.day)
-                    for i in np.arange(0,3): #Arbitrary at this moment, we add 3 hour of actvity for the next day (2h59 the limit) 
-                        #Paths.append(sorted(glob.glob(str(Path(Wdir,N_Date_full_formated,'L2b_V02.MTRG_'+N_Year+'-'+N_Month+'-'+N_Day+'_formated2.merged_with_SAETTA.L2.LYLOUT_'+N_Date_full_formated+'_0'+str(i)+'*')))))
-                        Paths.append(sorted(glob.glob(str(Path(Wdir,N_Date_full_formated,'L2b.V02.EXAEDRE.SAETTA.MTRG.'+N_Year+N_Month+N_Day+'_0'+str(i)+'*')))))
-                else:
-                    print('NO FILES FOR THE NEXT DAY')   
+    for i in np.arange(t_min, t_max+1):
+        if i<10:
+            Paths.append(sorted(glob.glob(str(Path(Wdir,DAY,FilesName+Year+Month+Day+'_0'+str(i)+'*')))))
+        if i>=10:
+            Paths.append(sorted(glob.glob(str(Path(Wdir,DAY,FilesName'+Year+Month+Day+'_'+str(i)+'*')))))
+    
+    Paths_day = [item for sublist in Paths for item in sublist]
+    #test if there is activity around 00UTC              
+    if Paths_day[-1].startswith(str(Path(Wdir,DAY,FilesName+Year+Month+Day+'_2350'))):
+            print('Evening late  activity, loading next day files')
+            date_next_DAY=date_DAY+ timedelta(days=1)
+            N_Date_full_formated=str(date_next_DAY.year)+str("%02d" % date_next_DAY.month)+str("%02d" % date_next_DAY.day)
+            if os.path.exists(Path(Wdir/N_Date_full_formated)):
+                #N for next day 
+                Continuous_activity=1 #if activity continues on 2 days, follow tracking the next day until 3 am 
+                N_Year=str(date_next_DAY.year)
+                N_Month=str("%02d" % date_next_DAY.month)
+                N_Day=str("%02d" % date_next_DAY.day)
+                for i in np.arange(0,3): #Arbitrary at this moment, we add 3 hour of actvity for the next day (2h59 the limit) 
+                    Paths.append(sorted(glob.glob(str(Path(Wdir,N_Date_full_formated,FilesName+N_Year+N_Month+N_Day+'_0'+str(i)+'*')))))
+            else:
+                print('NO FILES FOR THE NEXT DAY')   
                    
     ######################################## L2b Files loading #######################################################
     PATHS = [item for sublist in Paths for item in sublist]
