@@ -191,7 +191,8 @@ def ECTA(DAY,domain,T_start,T_end,LMA,Wdir):    # multiple return when no data
                 Paths.append(sorted(glob.glob(str(Path(Wdir,DAY,'L2b.V02.EXAEDRE.SAETTA.MTRG.'+Year+Month+Day+'_'+str(i)+'*')))))
         Paths_day = [item for sublist in Paths for item in sublist]
         #test if there is activity around 00UTC,              
-        if Paths_day[-1].startswith(str(Path(Wdir,DAY,'L2b_V02.MTRG_'+Year+'-'+Month+'-'+Day+'_formated2.merged_with_SAETTA.L2.LYLOUT_'+DAY+'_2350'))):
+        if Paths_day[-1].startswith(str(Path(Wdir,DAY,'L2b.V02.EXAEDRE.SAETTA.MTRG.'+Year+Month+Day+'_2350'))):
+        #if Paths_day[-1].startswith(str(Path(Wdir,DAY,'L2b_V02.MTRG_'+Year+'-'+Month+'-'+Day+'_formated2.merged_with_SAETTA.L2.LYLOUT_'+DAY+'_2350'))):
                 print('Evening late  activity, loading next day files')
                 date_next_DAY=date_DAY+ timedelta(days=1)
                 N_Date_full_formated=str(date_next_DAY.year)+str("%02d" % date_next_DAY.month)+str("%02d" % date_next_DAY.day)
